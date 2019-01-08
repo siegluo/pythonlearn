@@ -44,7 +44,28 @@ def insertion_sort(a: List[int]):
             list[j + 1] = list[j]
             j -= 1
         list[j + 1] = v
+def headfy(a: List[int], index: int, heap_size: int):
+    larger = index
+    left = index * 2 + 1
+    right = left + 1
+    if left <= heap_size and a[left] > a[index] and a[left] > a[right]:
+        a[left], a[larger] = a[larger], a[left]
+        larger = left
+    if right <= heap_size and a[right] > a[index] and a[right] > a[left]:
+        a[right], a[larger] = a[larger], a[right]
+        larger = right
+    if larger is not index and larger * 2 + 1 < heap_size:
+        headfy(a, larger, heap_size)
 
+
+def heap_sort(a: List[int]):
+    length = len(a)
+    for i in range(length//2 - 1, 0, -1):
+        headfy(a, i, length-1)
+
+    for i in range(length - 1, 0, -1):
+        a[i], a[0] = a[0], a[i]
+        headfy(a, 0, i)
 
 if __name__ == '__main__':
     list = [8, 1, 3, 2, 7, 4, 6, 9, 5]
